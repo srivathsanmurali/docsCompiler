@@ -13,6 +13,7 @@ nix-shell -p python35Full python35Packages.pypandoc python35Packages.pyyaml pand
 ```
 
 ## yaml file format
+```
 [folder-name]
   docSource: [doc-source]
   indexFile: [index-file]
@@ -22,3 +23,4 @@ nix-shell -p python35Full python35Packages.pypandoc python35Packages.pyyaml pand
 [folder-name]
   docSource: [doc-source]
   indexFile: [index-file]
+```
