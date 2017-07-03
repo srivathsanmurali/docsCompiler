@@ -3,15 +3,7 @@ from os import listdir
 from os.path import splitext
 from shutil import copyfile
 import pypandoc
-
-### List of repos and its path
-repos = [
-        ('CalibrationTarget', 'src/CalibrationTarget/doc/', 'main.md'),
-        ('openmvg', 'src/openmvg/docs/nomoko_docs/', 'documentation.markdown'),
-        ('test', 'src/test/', 'test.md')
-        ]
-
-outDir = "./build/"
+import yaml
 
 def writeToHtml(htmlText, filepath):
     htmlFile =  """<!DOCTYPE html>
@@ -27,11 +19,13 @@ def writeToHtml(htmlText, filepath):
     with open(filepath, 'w') as f:
         f.write(htmlFile)
 
-def main():
+def main(srcs, outDir):
     indexLinks = []
 
-    for (name, path, indexFile) in repos:
-        print ("Processing" , name, "at", path)
+    for name in srcs:
+        path = srcs[name]['docSource']
+        indexFile = srcs[name]['indexFile']
+
         if not os.path.exists(outDir):
             os.makedirs(outDir)
 
@@ -77,5 +71,11 @@ def main():
 
     print("Indexfile Path =", outIndexPath)
 
+def loadSources(filename):
+    f = open(filename, 'r');
+    srcs = yaml.safe_load(f)
+    return srcs
+
 if __name__ == "__main__":
-    main()
+    srcs = loadSources("./sources.yaml")
+    main(srcs, "./build/")
