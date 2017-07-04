@@ -26,6 +26,12 @@ def main(srcs, outDir):
         path = srcs[name]['docSource']
         indexFile = srcs[name]['indexFile']
 
+        if not os.path.exists(path):
+            print()
+            print("Source not available for", name)
+            print("----------------------")
+            continue
+
         if not os.path.exists(outDir):
             os.makedirs(outDir)
 
@@ -61,6 +67,8 @@ def main(srcs, outDir):
     indexString = ["# Nomoko Documentation"]
     for (n, i) in indexLinks:
         indexString.append("+ ["+n+"]("+i+")")
+
+    indexString.append("\n## [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)")
 
     outIndexPath = outDir + "index.html"
     output = pypandoc.convert_text("\n".join(indexString),
